@@ -69,7 +69,10 @@ public class Animal {
         System.out.println("\n A new animal was created!");
         numOfAnimals++;
     }
-
+    public Animal(String animalID, String animalName) {
+        System.out.println("\n A new animal was created!");
+        numOfAnimals++;
+    }
 
 
 }

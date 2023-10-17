@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Calendar;
 import java.time.LocalDate;
@@ -28,10 +29,50 @@ public class Main {
         if (theSpecies.contains("hyena")) {
             prefix = "Hy";
         }
+        else if (theSpecies.contains("lion")) {
+            prefix = "Li";
+        }
+        else if (theSpecies.contains("tiger")) {
+            prefix = "Ti";
+        }
+        else if (theSpecies.contains("bear")) {
+            prefix = "Be";
+        }
+        else if (theSpecies.contains("unknown")) {
+            prefix = "XX";
+        }
 
         return prefix + Integer.valueOf(suffix);
 
     }
+    static String calcBirthdate(int yearsOld, String birthSeason) {
+
+        int year = 2023 - yearsOld;
+        String monthDay;
+        String newDate;
+
+        switch (birthSeason) {
+            case "spring,":
+                monthDay = "03-21";
+                break;
+            case "summer,":
+                monthDay = "06-21";
+                break;
+            case "fall,":
+                monthDay = "09-21";
+                break;
+            case "winter,":
+                monthDay = "12-21";
+                break;
+            default:
+                monthDay = "01-01";
+                break;
+        }
+        newDate =  Integer.toString(year) + "-" + monthDay;
+
+        return newDate;
+    }
+
 
 
     public static void main(String[] args) {
@@ -116,8 +157,18 @@ public class Main {
                     myAnimalBD = "error " + animalsYearOfBirthDate;
                 }
 
+                // create a local date object from the animal's birthday
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
-                System.out.println("\n\n Animal birth date is: " + myAnimalBD + "\n\n");
+                LocalDate localDateAnimalBirthday = LocalDate.parse("Mar 21, 2017", formatter);
+
+                System.out.println("local date of Animal Birthday is:" + myAnimalBD);
+
+                long animalAgeinYears = ChronoUnit.YEARS.between(localDateAnimalBirthday,currentDate);
+
+                System.out.println("\n\n Animal age in years is: " + animalAgeinYears + "\n");
+
+                System.out.println("\n\n Animal birth date is: " + myAnimalBD + "\n");
 
 
                 // Subtract 4 years
@@ -135,26 +186,26 @@ public class Main {
                 // this will be the birthdate
                 //LocalDate myDate = LocalDate.of(2017, month, day);
                // LocalDate myDate = LocalDate.of(2017, month, day);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
+                formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
                 LocalDate myBirthDayTest = LocalDate.parse(myAnimalBD, formatter);
 
                 System.out.println("\n myDate is: " + myBirthDayTest);
 
                 // Calculate animal age using local date object
-                LocalDate myNow = LocalDate.now();
-                LocalDate myAnimalAge = myBirthDayTest - myNow ;
+                //LocalDate myNow = LocalDate.now();
+                //LocalDate myAnimalAge = myBirthDayTest.minus(myNow);
 
-                System.out.println("\n The animal's age is: " + myAnimalAge);
+                //System.out.println("\n The animal's age is: " + myAnimalAge);
 
 
                 // Print the original and new dates
                 System.out.println("Today's Date: " + today);
                 System.out.println("Date " + myArrayOfAgeGenderSpecies[1] + " years ago: " + yearsAgo);
 
+                String mySpecies = myArrayOfAgeGenderSpecies[4];
 
 
-
-                System.out.println("\n Species is " + myArrayOfAgeGenderSpecies[4]);
+                System.out.println("\n Species is " + mySpecies);
                 System.out.println("\n Animal Number " + myCounter + " ************");
                 System.out.println("\n myArrayOfAnimalData[0] is.. " + myArrayOfAnimalData[0]);
                 System.out.println("\n myArrayOfAnimalData[1] is.. " + myArrayOfAnimalData[1]);
@@ -192,6 +243,9 @@ public class Main {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
     }
 
 
