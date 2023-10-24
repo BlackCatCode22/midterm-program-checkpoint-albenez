@@ -220,23 +220,8 @@ public class Main {
 
 
 
-                /*
-                String myStr = myArray[0];
-                System.out.println("\n myStr = " + myStr);
-                myArray = myStr.split(" ");
-                String mySpecies = myArray[4];
-                System.out.println(" Species is: " + mySpecies);
-                System.out.println("\n myStr = " + myStr);
-*/
 
-/*
-                System.out.println(" First element: " + myArray[0]);
-                System.out.println(" Second element: " + myArray[1]);
-                System.out.println(" Third item: " + myArray[2]);
-                System.out.println(" Fourth element: " + myArray[3]);
-                System.out.println(" Fifth item: " + myArray[4]);
-                System.out.println(" Sixth item: " + myArray[5]);
-*/
+
 
             }
         }
