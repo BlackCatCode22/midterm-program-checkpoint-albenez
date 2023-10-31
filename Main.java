@@ -1,240 +1,36 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Calendar;
-import java.time.LocalDate;
-
-
-
-
-// Main.java
-// Driver class for the Zoo program
-// dH
-// 9/26/23
-
-// updated Oct 5, 2023
-
-
 public class Main {
-
-    // Creating the genUniqueID method
-    private static String genUniqueID(String theSpecies, int numOfSpecies) {
-        String prefix = "";
-        int suffix = numOfSpecies + 1;
-
-
-        if (theSpecies.contains("hyena")) {
-            prefix = "Hy";
-        }
-        else if (theSpecies.contains("lion")) {
-            prefix = "Li";
-        }
-        else if (theSpecies.contains("tiger")) {
-            prefix = "Ti";
-        }
-        else if (theSpecies.contains("bear")) {
-            prefix = "Be";
-        }
-        else if (theSpecies.contains("unknown")) {
-            prefix = "XX";
-        }
-
-        return prefix + Integer.valueOf(suffix);
-
-    }
-    static String calcBirthdate(int yearsOld, String birthSeason) {
-
-        int year = 2023 - yearsOld;
-        String monthDay;
-        String newDate;
-
-        switch (birthSeason) {
-            case "spring,":
-                monthDay = "03-21";
-                break;
-            case "summer,":
-                monthDay = "06-21";
-                break;
-            case "fall,":
-                monthDay = "09-21";
-                break;
-            case "winter,":
-                monthDay = "12-21";
-                break;
-            default:
-                monthDay = "01-01";
-                break;
-        }
-        newDate =  Integer.toString(year) + "-" + monthDay;
-
-        return newDate;
-    }
-
-
-
     public static void main(String[] args) {
 
-        System.out.println("\n\n Welcome to my Zoo Program\n\n");
-
-        // Load all species classes with name.
-        // Call the static methods to create a lists of names.
-        Lion.inputLionNames();
-        Tiger.inputTigerNames();
-        Bear.inputBearNames();
-        Hyena.inputHyenaNames();
-
-
-
-        // Open a csv file using the split() method on a string object
-        String path = "C:\\Users\\BE218\\javaStuff\\arrivingAnimals.txt";
-        String myFileLine = "";
+        System.out.printf("Hello and welcome!");
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            int myCounter = 1;
-            while ((myFileLine = reader.readLine()) != null) {
-                // The input data from arrivingAnimals looks like this:
-                // 4 year old female hyena, born in spring, tan color, 70 pounds, from Friguia Park, Tunisia
+            // Specify the URL to scrape
+            String url = "https://www.fresnocitycollege.edu/";
 
-                // Create a String array named myArrayOfAnimalData
-                String[] myArrayOfAnimalData = myFileLine.split(",");
-
-                // Create another String array named
-                String[] myArrayOfAgeGenderSpecies = myArrayOfAnimalData[0].split(" ");
-
-                // Output the age, gender and species
-
-                System.out.println("\n age in years: " + myArrayOfAgeGenderSpecies[0]);
-                System.out.println("\n text for age (should be 'year') " + myArrayOfAgeGenderSpecies[1]);
-                System.out.println("\n text for age (should be 'old') " + myArrayOfAgeGenderSpecies[2]);
-                System.out.println("\n gender is " + myArrayOfAgeGenderSpecies[3]);
-                System.out.println("\n species is " + myArrayOfAgeGenderSpecies[4]);
-
-
-                // Code up the birthDate() method
-
-                // Get today's date:
-                Calendar calendar = Calendar.getInstance();
-                Date today = calendar.getTime();
-
-                // Get today's date
-                LocalDate currentDate = LocalDate.now();
-                int year = currentDate.getYear();
-
-                // Print the year
-                System.out.println("Current Year: " + year);
-
-                int animalsYearOfBirthDate = year - Integer.parseInt(myArrayOfAgeGenderSpecies[0]);
-
-                // Split the next group of words by a space.
-                String[] myArrayOfBirthSeason = myArrayOfAnimalData[1].split(" ");
-
-                String birthSeason = myArrayOfBirthSeason[3];
-                System.out.println(" \n birthSeason = " + birthSeason + "\n\n");
-
-                String myAnimalBD = " ";
-
-                if (birthSeason.contains("spring")) {
-                    myAnimalBD = "Mar 21, " + animalsYearOfBirthDate;
-
-                }
-                else if (birthSeason.contains("summer")) {
-                    myAnimalBD = "Jun 21, " + animalsYearOfBirthDate;
-                }
-                else if (birthSeason.contains("fall")) {
-                    myAnimalBD = "Sep 21, " + animalsYearOfBirthDate;
-                }
-                else if (birthSeason.contains("winter")) {
-                    myAnimalBD = "Dec 21, " + animalsYearOfBirthDate;
-                }
-                else if (birthSeason.contains("season")) {
-                    myAnimalBD = "Jan 1, " + animalsYearOfBirthDate;
-                }
-                else {
-                    myAnimalBD = "error " + animalsYearOfBirthDate;
-                }
-
-                // create a local date object from the animal's birthday
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-
-                LocalDate localDateAnimalBirthday = LocalDate.parse("Mar 21, 2017", formatter);
-
-                System.out.println("local date of Animal Birthday is:" + myAnimalBD);
-
-                long animalAgeinYears = ChronoUnit.YEARS.between(localDateAnimalBirthday,currentDate);
-
-                System.out.println("\n\n Animal age in years is: " + animalAgeinYears + "\n");
-
-                System.out.println("\n\n Animal birth date is: " + myAnimalBD + "\n");
-
-
-                // Subtract 4 years
-                calendar.add(Calendar.YEAR, - Integer.parseInt(myArrayOfAgeGenderSpecies[0]) );
-
-                // Get the new date after subtraction
-                Date yearsAgo = calendar.getTime();
-
-
-                // code up calulating the age
-                // animal age = now birthdate
-                // we must create dataTime object so we can do math on them
-
-                // 1.) create a dateTime object for "jan 1, 2017
-                // this will be the birthdate
-                //LocalDate myDate = LocalDate.of(2017, month, day);
-               // LocalDate myDate = LocalDate.of(2017, month, day);
-                formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
-                LocalDate myBirthDayTest = LocalDate.parse(myAnimalBD, formatter);
-
-                System.out.println("\n myDate is: " + myBirthDayTest);
-
-                // Calculate animal age using local date object
-                //LocalDate myNow = LocalDate.now();
-                //LocalDate myAnimalAge = myBirthDayTest.minus(myNow);
-
-                //System.out.println("\n The animal's age is: " + myAnimalAge);
-
-
-                // Print the original and new dates
-                System.out.println("Today's Date: " + today);
-                System.out.println("Date " + myArrayOfAgeGenderSpecies[1] + " years ago: " + yearsAgo);
-
-                String mySpecies = myArrayOfAgeGenderSpecies[4];
-
-
-                System.out.println("\n Species is " + mySpecies);
-                System.out.println("\n Animal Number " + myCounter + " ************");
-                System.out.println("\n myArrayOfAnimalData[0] is.. " + myArrayOfAnimalData[0]);
-                System.out.println("\n myArrayOfAnimalData[1] is.. " + myArrayOfAnimalData[1]);
-                System.out.println("\n myArrayOfAnimalData[2] is.. " + myArrayOfAnimalData[2]);
-                System.out.println("\n myArrayOfAnimalData[3] is.. " + myArrayOfAnimalData[3]);
-                System.out.println("\n myArrayOfAnimalData[4] is.. " + myArrayOfAnimalData[4]);
-                System.out.println("\n myArrayOfAnimalData[5] is.. " + myArrayOfAnimalData[5]);
-                System.out.println("\n\n");
-
-                // increment the animal counter
-                myCounter++;
+            // Fetch and parse the HTML document from the URL
+            Document document = Jsoup.connect(url).get();
 
 
 
 
-
-
+            // Extract all the links and their titles from the document
+            Elements links = document.select("a[href]");
+            for (Element link : links) {
+                // Extract the link and the title
+                String linkHref = link.attr("abs:href");
+                String linkText = link.text();
+                System.out.println("Link: " + linkHref + ", Text: " + linkText);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-
     }
-
-
-
-
 }
-
